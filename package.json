@@ -1,0 +1,11 @@
+{
+  "name": "mangadex-archive-torrent-processor",
+  "version": "1.0.0",
+  "description": "Package that creates a torrent based on a provided directory, uploads said torrent to mangadex and adds it to a torrent-client.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT"
+}
