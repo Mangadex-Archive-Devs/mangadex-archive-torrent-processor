@@ -21,16 +21,9 @@ module.exports = {
         comment: 'https://mangadex.org/manga/' + arguments.manga_id,
         createdBy: 'mangadex-archive',
         announceList: [
-          'http://anidex.moe:6969/announce',
-          'udp://tracker.openbittorrent.com:80',
-          'udp://tracker.internetwarriors.net:1337',
-          'udp://tracker.leechers-paradise.org:6969',
-          'udp://tracker.coppersurfer.tk:6969',
-          'udp://exodus.desync.com:6969',
-          'wss://tracker.btorrent.xyz',
-          'wss://tracker.openwebtorrent.com',
-          'wss://tracker.fastcast.nz'
-        ]
+          ['http://anidex.moe:6969/announce']
+        ],
+        private: true
       },
       (createTorrent_err, torrent) => {
         //Abort if createTorrent failed
