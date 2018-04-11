@@ -1,17 +1,15 @@
 const createTorrent = require('create-torrent');
 const fs = require('fs');
 const torrent_directory = './';
-const anidex = require('./anidex');
 
 module.exports = {
-  processDirectory: (arguments, cb) => {
+  generateTorrent: (arguments, cb) => {
     /*
       arguments: {
+        torrent_name,         //Name of the torrent
         source_directory,     //Location of chapters
         manga_id              //ID of the manga
         torrent_file_path,    //Where the .torrent-file should be saved
-        anidex_description,   //Description for anidex
-        anidex_hentai         //Is the manga considered adult content
       }
     */
 
@@ -41,33 +39,34 @@ module.exports = {
             code: 301,
             message: 'Creating the torrent failed',
             error: createTorrent_err
-          }, null);
+          });
         }
 
         //Save file
-        fs.writeFile(arguments.torrent_file_path, (writeFile_err) => {
+        fs.writeFile(arguments.torrent_file_path, torrent, (writeFile_err) => {
           //Abort if saving the torrent-file failed
           if (writeFile_err) {
             return cb({
               code: 302,
               message: 'Saving the torrent-file failed',
               error: writeFile_err
-            }, null);
+            });
           }
 
-          //Upload to anidex
-          anidex.postTorrent(arguments.torrent_file_path, (anidex_err) => {
-            //Abort if upload failed
-            if (anidex_err) {
-              return cb({
-                code: 303,
-                message: 'Uploading the torrent-file failed',
-                error: anidex_err
-              }, null);
-            }
-          });
+          //All ok
+          cb(null);
         });
       }
     );
+  },
+  postTorrent: (arguments, cb) => {
+    /*
+      torrent_file_path,    //Where the .torrent-file is located at
+      anidex_description,   //Description for anidex
+      anidex_hentai         //Is the manga considered adult content
+    */
+
+    //Upload to anidex
+    //TODO
   }
 }
