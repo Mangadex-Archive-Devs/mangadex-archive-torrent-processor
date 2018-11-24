@@ -5,6 +5,15 @@ const fs = require('fs')
 const FormData = require('form-data')
 
 
+function ExtendedError(code, message, data) {
+  const err = new Error(message)
+  err.code = code
+  err.data = data
+
+  return err
+}
+
+
 module.exports = {
   generateTorrent: async function(args) {
     /*
@@ -72,7 +81,7 @@ module.exports = {
       form.append('debug', args.anidex_debug)
       form.append('private', args.anidex_private)
 
-      form.submit('https://anidex.info/api/', function (err, res) {
+      form.submit(args.post_url || 'https://anidex.info/api/', function (err, res) {
         if (err !== null) {
           return reject(err)
         }
@@ -86,7 +95,6 @@ module.exports = {
             data += chunk
           })
           .on('end', () => {
-            //console.log("API upload response:", res.statusCode, res.body, data)
             let rx = /https:\/\/anidex\.info\/torrent\/(\d+)/i
             let arr = rx.exec(data)
             
@@ -95,8 +103,13 @@ module.exports = {
             } else if (data.includes('Upload would have succeeded, congratulations.')) {
               resolve(0)
             } else {
-              console.error("API upload response:", data)
-              reject(new Error('No id could be extracted from the API response'))
+              reject(
+                ExtendedError(
+                  'ERR_UNEXPECTED_API_RESPONSE',
+                  'No id could be extracted from the API response',
+                  data
+                )
+              )
             }
           })
       })
