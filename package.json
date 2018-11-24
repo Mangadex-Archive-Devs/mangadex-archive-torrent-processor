@@ -4,11 +4,14 @@
   "description": "Package that creates a torrent based on a provided directory, uploads said torrent to mangadex and adds it to a torrent-client.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node ./tests/files/preconditions.js && jest"
   },
   "author": "",
   "license": "MIT",
   "dependencies": {
     "create-torrent": "^3.30.0"
+  },
+  "devDependencies": {
+    "jest": "^23.6.0"
   }
 }
