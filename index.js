@@ -3,7 +3,6 @@ const util = require('util')
 const createTorrent = require('create-torrent')
 const fs = require('fs')
 const FormData = require('form-data')
-const torrent_directory = './'
 
 
 module.exports = {
